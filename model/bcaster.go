@@ -4,7 +4,6 @@ import (
 	"time"
 
 	"github.com/jinzhu/gorm"
-	"github.com/suzukix/apireq/api_request"
 )
 
 const OFFLINE = 0
@@ -17,7 +16,6 @@ type Bcaster struct {
 	StartFlag int
 	CreatedAt time.Time
 	UpdatedAt time.Time
-	Cavetube  Cavetube
 	Mixer     Mixer
 	Nico      Nico
 	Twitch    Twitch

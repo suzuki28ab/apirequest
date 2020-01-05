@@ -15,6 +15,6 @@ func GetDiscordGo() *discordgo.Session {
 	return s
 }
 
-func SendMessage(s *discordgo.Session, str string) {
-	s.ChannelMessageSend(os.Getenv("DAREGIRU_GENERAL"), str)
+func SendMessage(s *discordgo.Session, message string) {
+	s.ChannelMessageSend(os.Getenv("DAREGIRU_GENERAL"), message)
 }

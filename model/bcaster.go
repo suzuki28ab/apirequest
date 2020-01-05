@@ -24,7 +24,7 @@ type Bcaster struct {
 	Youtube   Youtube
 }
 
-func (b Bcaster) RequestBcasterLive(db *gorm.DB, nicoUserSession string, caveLiveData []api_request.Entry) (startFlag int) {
+func (b Bcaster) RequestBcasterLive(db *gorm.DB, nicoUserSession string) (startFlag int) {
 	onlineCheckSlice := []bool{}
 	if b.Youtube.Id != 0 {
 		isLive := b.Youtube.UpdateYoutubeStatus(db)
@@ -36,10 +36,6 @@ func (b Bcaster) RequestBcasterLive(db *gorm.DB, nicoUserSession string, caveLiv
 	}
 	if b.Twitch.Id != 0 {
 		isLive := b.Twitch.UpdateTwitchStatus(db)
-		onlineCheckSlice = append(onlineCheckSlice, isLive)
-	}
-	if b.Cavetube.Id != 0 {
-		isLive := b.Cavetube.UpdateCavetubeStatus(db, caveLiveData)
 		onlineCheckSlice = append(onlineCheckSlice, isLive)
 	}
 	if b.Nico.Id != 0 {

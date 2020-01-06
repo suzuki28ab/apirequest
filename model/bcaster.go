@@ -69,7 +69,8 @@ func (b Bcaster) updateStatus(db *gorm.DB, online bool) (startFlag int) {
 		db.Model(&b).UpdateColumns(map[string]interface{}{
 			"status": status,
 			"start_flag": startFlag,
-			"updated_at": time.Now()})
+			"updated_at": time.Now(),
+		})
 	}
 	return
 }

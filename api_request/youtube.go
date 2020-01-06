@@ -22,7 +22,7 @@ type item struct {
 }
 
 type id struct {
-	VideoID string `json:"videoID"`
+	VideoID string `json:"videoId"`
 }
 
 type snippet struct {

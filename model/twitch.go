@@ -8,12 +8,12 @@ import (
 const TWITCH_URL = "https://www.twitch.tv/"
 
 type Twitch struct {
-	Id        int
+	ID        int
 	Account   string
 	Title     string
 	OnUrl     string
 	OffUrl    string
-	BcasterId int
+	BcasterID int
 }
 
 func (t Twitch) UpdateTwitchStatus(db *gorm.DB) (isLive bool) {

@@ -23,7 +23,7 @@ func GetTwitchLiveData(id string) (isLive bool, title string) {
 	if err != nil {
 		fmt.Println(err)
 	}
-	req.Header.Add("Client-Id", os.Getenv("TWITCH_KEY"))
+	req.Header.Add("Client-ID", os.Getenv("TWITCH_KEY"))
 	client := new(http.Client)
 	resp, err := client.Do(req)
 	if err != nil {

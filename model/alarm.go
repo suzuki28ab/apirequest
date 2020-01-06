@@ -9,7 +9,7 @@ import (
 const DATE_TIME_FORMAT = "2006-01-02 15:04:05"
 
 type Alarm struct {
-	Id      int
+	ID      int
 	Content string
 }
 

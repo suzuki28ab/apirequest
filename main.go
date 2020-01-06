@@ -18,7 +18,7 @@ func apiRequest() {
 		fmt.Println(err)
 	}
 	defer db.Close()
-	db.LogMode(true)
+
 	db.Set("gorm:auto_preload", true).Find(&bcasters)
 	nicoUserSession := api_request.GetUserSeesion()
 	s := discord.GetDiscordGo()

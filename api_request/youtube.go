@@ -17,19 +17,19 @@ type apiYoutube struct {
 }
 
 type item struct {
-	Id      id      `json:"id"`
+	ID      id      `json:"id"`
 	Snippet snippet `json:"snippet"`
 }
 
 type id struct {
-	VideoId string `json:"videoId"`
+	VideoID string `json:"videoID"`
 }
 
 type snippet struct {
 	Title string `json:"title"`
 }
 
-func GetYoutubeLiveData(id string) (isLive bool, title string, videoId string) {
+func GetYoutubeLiveData(id string) (isLive bool, title string, videoID string) {
 	resp, err := http.Get(API_YOUTUBE_URL + id + API_QUERY + os.Getenv("TUBE_KEY"))
 	if err != nil {
 		fmt.Println(err)
@@ -46,10 +46,10 @@ func GetYoutubeLiveData(id string) (isLive bool, title string, videoId string) {
 
 	if isLive {
 		title = api.Items[0].Snippet.Title
-		videoId = api.Items[0].Id.VideoId
+		videoID = api.Items[0].ID.VideoID
 		return
 	}
 	title = ""
-	videoId = ""
+	videoID = ""
 	return
 }

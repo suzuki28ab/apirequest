@@ -8,12 +8,12 @@ import (
 const LIVE_NICO_URL = "http://live2.nicovideo.jp/watch/"
 
 type Nico struct {
-	Id        int
+	ID        int
 	Account   string
 	Title     string
 	OnUrl     string
 	OffUrl    string
-	BcasterId int
+	BcasterID int
 }
 
 func (n Nico) UpdateNicoStatus(db *gorm.DB, userSession string) (isLive bool) {
@@ -26,10 +26,10 @@ func (n Nico) UpdateNicoStatus(db *gorm.DB, userSession string) (isLive bool) {
 }
 
 func getNicoInfo(nico Nico, userSession string) (isLive bool, title string, onUrl string) {
-	isLive, title, videoId := api_request.GetNicoLiveData(nico.Account, userSession)
+	isLive, title, videoID := api_request.GetNicoLiveData(nico.Account, userSession)
 	onUrl = ""
 	if isLive {
-		onUrl = LIVE_NICO_URL + videoId
+		onUrl = LIVE_NICO_URL + videoID
 		title = "(Nico)" + title
 	}
 	return

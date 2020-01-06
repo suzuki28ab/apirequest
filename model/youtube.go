@@ -8,12 +8,12 @@ import (
 const LIVE_YOUTUBE_URL = "https://www.youtube.com/watch?v="
 
 type Youtube struct {
-	Id        int
+	ID        int
 	Account   string
 	Title     string
 	OnUrl     string
 	OffUrl    string
-	BcasterId int
+	BcasterID int
 }
 
 func (y Youtube) UpdateYoutubeStatus(db *gorm.DB) (isLive bool) {
@@ -26,10 +26,10 @@ func (y Youtube) UpdateYoutubeStatus(db *gorm.DB) (isLive bool) {
 }
 
 func getYoutubeInfo(youtube Youtube) (isLive bool, title string, onUrl string) {
-	isLive, title, videoId := api_request.GetYoutubeLiveData(youtube.Account)
+	isLive, title, videoID := api_request.GetYoutubeLiveData(youtube.Account)
 	onUrl = ""
 	if isLive {
-		onUrl = LIVE_YOUTUBE_URL + videoId
+		onUrl = LIVE_YOUTUBE_URL + videoID
 		title = "(Youtube)" + title
 	}
 	return

@@ -19,11 +19,11 @@ type apiNico struct {
 }
 
 type stream struct {
-	Id    string `xml:"id"`
+	ID    string `xml:"id"`
 	Title string `xml:"title"`
 }
 
-func GetNicoLiveData(id string, userSession string) (isLive bool, title string, videoId string) {
+func GetNicoLiveData(id string, userSession string) (isLive bool, title string, videoID string) {
 	req, err := http.NewRequest("GET", API_NICO_URL+id, nil)
 	if err != nil {
 		fmt.Println(err)
@@ -45,12 +45,12 @@ func GetNicoLiveData(id string, userSession string) (isLive bool, title string, 
 	}
 
 	if isLive {
-		videoId = apiNico.Stream.Id
+		videoID = apiNico.Stream.ID
 		title = apiNico.Stream.Title
 		return
 	}
 	title = ""
-	videoId = ""
+	videoID = ""
 	return
 }
 

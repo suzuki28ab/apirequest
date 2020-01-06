@@ -8,12 +8,12 @@ import (
 const MIXER_URL = "https://mixer.com/"
 
 type Mixer struct {
-	Id        int
+	ID        int
 	Account   string
 	Title     string
 	OnUrl     string
 	OffUrl    string
-	BcasterId int
+	BcasterID int
 }
 
 func (m Mixer) UpdateMixerStatus(db *gorm.DB) (isLive bool) {

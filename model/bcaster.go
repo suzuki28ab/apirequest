@@ -10,7 +10,7 @@ const OFFLINE = 0
 const ONLINE = 1
 
 type Bcaster struct {
-	Id        int
+	ID        int
 	Name      string
 	Status    int
 	StartFlag int
@@ -24,19 +24,19 @@ type Bcaster struct {
 
 func (b Bcaster) RequestBcasterLive(db *gorm.DB, nicoUserSession string) (startFlag int) {
 	onlineCheckSlice := []bool{}
-	if b.Youtube.Id != 0 {
+	if b.Youtube.ID != 0 {
 		isLive := b.Youtube.UpdateYoutubeStatus(db)
 		onlineCheckSlice = append(onlineCheckSlice, isLive)
 	}
-	if b.Mixer.Id != 0 {
+	if b.Mixer.ID != 0 {
 		isLive := b.Mixer.UpdateMixerStatus(db)
 		onlineCheckSlice = append(onlineCheckSlice, isLive)
 	}
-	if b.Twitch.Id != 0 {
+	if b.Twitch.ID != 0 {
 		isLive := b.Twitch.UpdateTwitchStatus(db)
 		onlineCheckSlice = append(onlineCheckSlice, isLive)
 	}
-	if b.Nico.Id != 0 {
+	if b.Nico.ID != 0 {
 		isLive := b.Nico.UpdateNicoStatus(db, nicoUserSession)
 		onlineCheckSlice = append(onlineCheckSlice, isLive)
 	}
@@ -45,8 +45,6 @@ func (b Bcaster) RequestBcasterLive(db *gorm.DB, nicoUserSession string) (startF
 		if onlineCheck {
 			online = true
 			break
-		} else {
-			online = false
 		}
 	}
 	startFlag = b.updateStatus(db, online)
@@ -68,7 +66,10 @@ func (b Bcaster) updateStatus(db *gorm.DB, online bool) (startFlag int) {
 		startFlag = 0
 	}
 	if b.Status != status || b.StartFlag != startFlag {
-		db.Model(&b).UpdateColumns(map[string]interface{}{"status": status, "start_flag": startFlag, "updated_at": time.Now()})
+		db.Model(&b).UpdateColumns(map[string]interface{}{
+			"status": status,
+			"start_flag": startFlag,
+			"updated_at": time.Now()})
 	}
 	return
 }

@@ -11,25 +11,24 @@ type Mixer struct {
 	ID        int
 	Account   string
 	Title     string
-	OnUrl     string
-	OffUrl    string
+	OnURL     string
+	OffURL    string
 	BcasterID int
 }
 
 func (m Mixer) UpdateMixerStatus(db *gorm.DB) (isLive bool) {
-	db.LogMode(true)
-	isLive, title, onUrl := getMixerInfo(m)
+	isLive, title, onURL := getMixerInfo(m)
 	if m.Title != title {
-		db.Model(&m).Updates(map[string]interface{}{"title": title, "on_url": onUrl})
+		db.Model(&m).Updates(map[string]interface{}{"title": title, "on_url": onURL})
 	}
 	return
 }
 
-func getMixerInfo(mixer Mixer) (isLive bool, title string, onUrl string) {
+func getMixerInfo(mixer Mixer) (isLive bool, title string, onURL string) {
 	isLive, title = api_request.GetMixerApi(mixer.Account)
-	onUrl = ""
+	onURL = ""
 	if isLive {
-		onUrl = MIXER_URL + mixer.Account
+		onURL = MIXER_URL + mixer.Account
 		title = "(Mixer)" + title
 	}
 	return

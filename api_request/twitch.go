@@ -19,16 +19,7 @@ type data struct {
 }
 
 func GetTwitchLiveData(id string) (isLive bool, title string) {
-	req, err := http.NewRequest("GET", API_TWITCH_URL+id, nil)
-	if err != nil {
-		fmt.Println(err)
-	}
-	req.Header.Add("Client-ID", os.Getenv("TWITCH_KEY"))
-	client := new(http.Client)
-	resp, err := client.Do(req)
-	if err != nil {
-		fmt.Println(err)
-	}
+	resp := getTwitchResponse(id)
 	defer resp.Body.Close()
 
 	b, _ := ioutil.ReadAll(resp.Body)
@@ -45,4 +36,19 @@ func GetTwitchLiveData(id string) (isLive bool, title string) {
 	}
 	title = ""
 	return
+}
+
+func getTwitchResponse(id string) *http.Response {
+	req, err := http.NewRequest("GET", API_TWITCH_URL+id, nil)
+	if err != nil {
+		fmt.Println(err)
+	}
+	req.Header.Add("Client-ID", os.Getenv("TWITCH_KEY"))
+	client := new(http.Client)
+	resp, err := client.Do(req)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	return resp
 }

@@ -8,7 +8,7 @@ import (
 )
 
 func GetDiscordGo() *discordgo.Session {
-	s, err := discordgo.New("Bot " + os.Getenv("YASUTAKA_TOKEN"))
+	s, err := discordgo.New("Bot " + os.Getenv("DISCORD_BOT_TOKEN"))
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -16,5 +16,5 @@ func GetDiscordGo() *discordgo.Session {
 }
 
 func SendMessage(s *discordgo.Session, message string) {
-	s.ChannelMessageSend(os.Getenv("DAREGIRU_GENERAL"), message)
+	s.ChannelMessageSend(os.Getenv("DISCORD_CHANNEL"), message)
 }

@@ -5,6 +5,8 @@ import (
 	"sync"
 
 	"github.com/aws/aws-lambda-go/lambda"
+	_ "github.com/joho/godotenv/autoload"
+
 	"github.com/suzukix/apireq/api_request"
 	"github.com/suzukix/apireq/db"
 	"github.com/suzukix/apireq/discord"
@@ -21,8 +23,8 @@ func apiRequest() {
 
 	db.Set("gorm:auto_preload", true).Find(&bcasters)
 	nicoUserSession := api_request.GetUserSeesion()
-	s := discord.GetDiscordGo()
-	defer s.Close()
+	discordSession := discord.GetDiscordGo()
+	defer discordSession.Close()
 	var wg sync.WaitGroup
 
 	for _, bcaster := range bcasters {
@@ -31,7 +33,7 @@ func apiRequest() {
 			defer wg.Done()
 			startFlag := b.RequestBcasterLive(db, nicoUserSession)
 			if startFlag == 1 {
-				discord.SendMessage(s, b.CreateDiscordNotice())
+				discord.SendMessage(discordSession, b.CreateDiscordNotice())
 			}
 		}(bcaster)
 	}

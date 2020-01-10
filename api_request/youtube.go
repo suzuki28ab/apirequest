@@ -30,10 +30,7 @@ type snippet struct {
 }
 
 func GetYoutubeLiveData(id string) (isLive bool, title string, videoID string) {
-	resp, err := http.Get(API_YOUTUBE_URL + id + API_QUERY + os.Getenv("TUBE_KEY"))
-	if err != nil {
-		fmt.Println(err)
-	}
+	resp := getYoutubeResponse(id)
 	defer resp.Body.Close()
 
 	b, _ := ioutil.ReadAll(resp.Body)
@@ -52,4 +49,13 @@ func GetYoutubeLiveData(id string) (isLive bool, title string, videoID string) {
 	title = ""
 	videoID = ""
 	return
+}
+
+func getYoutubeResponse(id string) *http.Response {
+	resp, err := http.Get(API_YOUTUBE_URL + id + API_QUERY + os.Getenv("TUBE_KEY"))
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	return resp
 }

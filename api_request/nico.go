@@ -24,16 +24,7 @@ type stream struct {
 }
 
 func GetNicoLiveData(id string, userSession string) (isLive bool, title string, videoID string) {
-	req, err := http.NewRequest("GET", API_NICO_URL+id, nil)
-	if err != nil {
-		fmt.Println(err)
-	}
-	req.Header.Add("Cookie", "user_session="+userSession)
-	client := new(http.Client)
-	resp, err := client.Do(req)
-	if err != nil {
-		fmt.Println(err)
-	}
+	resp := getNicoResponse(id, userSession)
 	defer resp.Body.Close()
 	xmlData, _ := ioutil.ReadAll(resp.Body)
 
@@ -52,6 +43,21 @@ func GetNicoLiveData(id string, userSession string) (isLive bool, title string, 
 	title = ""
 	videoID = ""
 	return
+}
+
+func getNicoResponse(id string, userSession string) *http.Response {
+	req, err := http.NewRequest("GET", API_NICO_URL+id, nil)
+	if err != nil {
+		fmt.Println(err)
+	}
+	req.Header.Add("Cookie", "user_session="+userSession)
+	client := new(http.Client)
+	resp, err := client.Do(req)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	return resp
 }
 
 func trim(start string, end string, str string) string {

@@ -15,10 +15,7 @@ type apiMixer struct {
 }
 
 func GetMixerApi(id string) (isLive bool, title string) {
-	resp, err := http.Get(API_MIXER_URL + id)
-	if err != nil {
-		fmt.Println(err)
-	}
+	resp := getMixerResponse(id)
 	defer resp.Body.Close()
 
 	b, _ := ioutil.ReadAll(resp.Body)
@@ -31,4 +28,13 @@ func GetMixerApi(id string) (isLive bool, title string) {
 	}
 	title = ""
 	return
+}
+
+func getMixerResponse(id string) *http.Response {
+	resp, err := http.Get(API_MIXER_URL + id)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	return resp
 }

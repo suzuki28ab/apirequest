@@ -35,7 +35,9 @@ func GetYoutubeLiveData(id string) (isLive bool, title string) {
 		//動的なDOMのためerrorでる可能性アリ
 		startIndex := strings.Index(html, "\"title") + 11
 		endIndex := strings.Index(html, "lengthSeconds") - 5
-		title = html[startIndex:endIndex]
+		if len(html) > 10 {
+			title = html[startIndex:endIndex]
+		}
 	}
 	return
 }

@@ -1,61 +1,41 @@
 package api_request
 
 import (
-	"encoding/json"
 	"fmt"
-	"io/ioutil"
-	"net/http"
-	"os"
+	"strings"
+
+	"github.com/PuerkitoBio/goquery"
 )
 
-const API_YOUTUBE_URL = "https://www.googleapis.com/youtube/v3/search?part=snippet&channelId="
+const YOUTUBE_CHANNEL_URL = "https://www.youtube.com/channel/"
 
-const API_QUERY = "&type=video&eventType=live&key="
+const LIVE = "/live"
 
-type apiYoutube struct {
-	Items []item `json:"items"`
-}
+func GetYoutubeLiveData(id string) (isLive bool, title string) {
+	liveUrl := YOUTUBE_CHANNEL_URL + id + LIVE
 
-type item struct {
-	ID      id      `json:"id"`
-	Snippet snippet `json:"snippet"`
-}
-
-type id struct {
-	VideoID string `json:"videoId"`
-}
-
-type snippet struct {
-	Title string `json:"title"`
-}
-
-func GetYoutubeLiveData(id string) (isLive bool, title string, videoID string) {
-	resp := getYoutubeResponse(id)
-	defer resp.Body.Close()
-
-	b, _ := ioutil.ReadAll(resp.Body)
-	var api apiYoutube
-	json.Unmarshal(b, &api)
-	isLive = false
-	if len(api.Items) != 0 {
-		isLive = true
-	}
-
-	if isLive {
-		title = api.Items[0].Snippet.Title
-		videoID = api.Items[0].ID.VideoID
-		return
-	}
-	title = ""
-	videoID = ""
-	return
-}
-
-func getYoutubeResponse(id string) *http.Response {
-	resp, err := http.Get(API_YOUTUBE_URL + id + API_QUERY + os.Getenv("TUBE_KEY"))
+	doc, err := goquery.NewDocument(liveUrl)
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println("scraiping error")
 	}
 
-	return resp
+	se := doc.Find("#player")
+	html, err := se.Html()
+	if err != nil {
+		fmt.Println("HTML error")
+	}
+
+	isLive = true
+	if strings.Contains(html, "LIVE_STREAM_OFFLINE") {
+		isLive = false
+	}
+
+	title = ""
+	if isLive {
+		//動的なDOMのためerrorでる可能性アリ
+		startIndex := strings.Index(html, "\"title") + 11
+		endIndex := strings.Index(html, "lengthSeconds") - 5
+		title = html[startIndex:endIndex]
+	}
+	return
 }

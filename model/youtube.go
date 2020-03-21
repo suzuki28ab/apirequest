@@ -25,10 +25,10 @@ func (y Youtube) UpdateYoutubeStatus(db *gorm.DB) (isLive bool) {
 }
 
 func getYoutubeInfo(youtube Youtube) (isLive bool, title string, onURL string) {
-	isLive, title, videoID := api_request.GetYoutubeLiveData(youtube.Account)
+	isLive, title = api_request.GetYoutubeLiveData(youtube.Account)
 	onURL = ""
 	if isLive {
-		onURL = LIVE_YOUTUBE_URL + videoID
+		onURL = api_request.YOUTUBE_CHANNEL_URL + youtube.Account + api_request.LIVE
 		title = "(Youtube)" + title
 	}
 	return

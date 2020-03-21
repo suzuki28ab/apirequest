@@ -3,9 +3,10 @@ package api_request
 import (
 	"testing"
 )
-func TestGetYoutubeResponse(t *testing.T) {
-	resp := getYoutubeResponse("")
-	if resp.StatusCode == 404 {
-		t.Fatal("Error request")
+
+func TestGetYoutubeLiveData(t *testing.T) {
+	isLive, _ := GetYoutubeLiveData("UCoNJkwUekNXHvuGuX93rAhw")
+	if isLive == true {
+		t.Error(isLive)
 	}
 }

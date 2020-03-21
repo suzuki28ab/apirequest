@@ -26,7 +26,7 @@ func GetYoutubeLiveData(id string) (isLive bool, title string) {
 	}
 
 	isLive = true
-	if strings.Contains(html, "LIVE_STREAM_OFFLINE") {
+	if strings.Contains(html, "LIVE_STREAM_OFFLINE") || strings.Contains(html, "playabilityStatus") == false {
 		isLive = false
 	}
 

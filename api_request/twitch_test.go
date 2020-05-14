@@ -5,7 +5,7 @@ import (
 )
 
 func TestGetTwitchResponse(t *testing.T) {
-	resp := getTwitchResponse("")
+	resp := getTwitchResponse("", "")
 	if resp.StatusCode == 404 {
 		t.Fatal("Error request")
 	}

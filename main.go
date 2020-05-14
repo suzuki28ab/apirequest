@@ -23,6 +23,7 @@ func apiRequest() {
 
 	db.Set("gorm:auto_preload", true).Find(&bcasters)
 	nicoUserSession := api_request.GetUserSeesion()
+	twitchToken := api_request.GetTwitchToken()
 	discordSession := discord.GetDiscordGo()
 	defer discordSession.Close()
 	var wg sync.WaitGroup
@@ -31,7 +32,7 @@ func apiRequest() {
 		wg.Add(1)
 		go func(b model.Bcaster) {
 			defer wg.Done()
-			startFlag := b.RequestBcasterLive(db, nicoUserSession)
+			startFlag := b.RequestBcasterLive(db, nicoUserSession, twitchToken)
 			if startFlag == 1 {
 				discord.SendMessage(discordSession, b.CreateDiscordNotice())
 			}

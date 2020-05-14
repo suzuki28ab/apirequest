@@ -16,16 +16,16 @@ type Twitch struct {
 	BcasterID int
 }
 
-func (t Twitch) UpdateTwitchStatus(db *gorm.DB) (isLive bool) {
-	isLive, title, onURL := getTwitchInfo(t)
+func (t Twitch) UpdateTwitchStatus(db *gorm.DB, token string) (isLive bool) {
+	isLive, title, onURL := getTwitchInfo(t, token)
 	if t.Title != title {
 		db.Model(&t).Updates(map[string]interface{}{"title": title, "on_url": onURL})
 	}
 	return
 }
 
-func getTwitchInfo(twitch Twitch) (isLive bool, title string, onURL string) {
-	isLive, title = api_request.GetTwitchLiveData(twitch.Account)
+func getTwitchInfo(twitch Twitch, token string) (isLive bool, title string, onURL string) {
+	isLive, title = api_request.GetTwitchLiveData(twitch.Account, token)
 	onURL = ""
 	if isLive {
 		onURL = TWITCH_URL + twitch.Account

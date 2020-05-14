@@ -22,7 +22,7 @@ type Bcaster struct {
 	Youtube   Youtube
 }
 
-func (b Bcaster) RequestBcasterLive(db *gorm.DB, nicoUserSession string) (startFlag int) {
+func (b Bcaster) RequestBcasterLive(db *gorm.DB, nicoUserSession string, twitchToken string) (startFlag int) {
 	onlineCheckSlice := []bool{}
 	if b.Youtube.ID != 0 {
 		isLive := b.Youtube.UpdateYoutubeStatus(db)
@@ -33,7 +33,7 @@ func (b Bcaster) RequestBcasterLive(db *gorm.DB, nicoUserSession string) (startF
 		onlineCheckSlice = append(onlineCheckSlice, isLive)
 	}
 	if b.Twitch.ID != 0 {
-		isLive := b.Twitch.UpdateTwitchStatus(db)
+		isLive := b.Twitch.UpdateTwitchStatus(db, twitchToken)
 		onlineCheckSlice = append(onlineCheckSlice, isLive)
 	}
 	if b.Nico.ID != 0 {

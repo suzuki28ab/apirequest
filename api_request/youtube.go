@@ -2,6 +2,7 @@ package api_request
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/PuerkitoBio/goquery"
 )
@@ -22,15 +23,22 @@ func GetYoutubeLiveData(id string) (isLive bool, title string) {
 	title = ""
 
 	// body の linkタグにある type="text/xml+oembed" title="hoge" という構造を信用している
-	// オフラインのチャンネルにはこの構造が無い想定
+
 	se := doc.Find("body > link")
 	se.Each(func(i int, s *goquery.Selection) {
 		attr, _ := s.Attr("type")
 		if attr == "text/xml+oembed" {
-			title, _ = s.Attr("title")
 			isLive = true
+			title, _ = s.Attr("title")
 		}
 	})
+
+	body := doc.Find("body")
+	html, _ := body.Html()
+	if strings.Contains(html, "LIVE_STREAM_OFFLINE") {
+		isLive = false
+		title = ""
+	}
 
 	return
 }

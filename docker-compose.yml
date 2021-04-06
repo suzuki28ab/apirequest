@@ -5,3 +5,12 @@ services:
     tty: true
     volumes:
       - .:/go/src/github.com/suzukix/apireq
+  db:
+    image: postgres:9.6.2
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      PGPASSWORD: password123
+      POSTGRES_DB: test
+      TZ: "Asia/Tokyo"
+

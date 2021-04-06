@@ -19,7 +19,6 @@ func apiRequest() {
 	if err != nil {
 		fmt.Println(err)
 	}
-	defer db.Close()
 
 	db.Set("gorm:auto_preload", true).Find(&bcasters)
 	nicoUserSession := api_request.GetUserSeesion()

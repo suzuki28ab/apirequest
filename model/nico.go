@@ -1,8 +1,8 @@
 package model
 
 import (
-	"github.com/jinzhu/gorm"
 	"github.com/suzukix/apireq/api_request"
+	"gorm.io/gorm"
 )
 
 const LIVE_NICO_URL = "http://live2.nicovideo.jp/watch/"

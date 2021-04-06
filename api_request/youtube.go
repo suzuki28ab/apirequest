@@ -22,22 +22,12 @@ func GetYoutubeLiveData(id string) (isLive bool, title string) {
 	isLive = false
 	title = ""
 
-	// body の linkタグにある type="text/xml+oembed" title="hoge" という構造を信用している
-
-	se := doc.Find("body > link")
-	se.Each(func(i int, s *goquery.Selection) {
-		attr, _ := s.Attr("type")
-		if attr == "text/xml+oembed" {
-			isLive = true
-			title, _ = s.Attr("title")
-		}
-	})
-
-	body := doc.Find("body")
-	html, _ := body.Html()
-	if strings.Contains(html, "LIVE_STREAM_OFFLINE") {
-		isLive = false
-		title = ""
+	se := doc.Find("body")
+	html, _ := se.Html()
+	if strings.Contains(html, "ライブ配信開始") {
+		isLive = true
+		title = doc.Find("title").Text()
+		title = strings.Trim(title, " - YouTube")
 	}
 
 	return

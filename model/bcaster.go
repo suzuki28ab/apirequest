@@ -3,7 +3,7 @@ package model
 import (
 	"time"
 
-	"github.com/jinzhu/gorm"
+	"gorm.io/gorm"
 )
 
 const OFFLINE = 0
@@ -14,6 +14,8 @@ type Bcaster struct {
 	Name      string
 	Status    int
 	StartFlag int
+	title     string
+	streamUrl string
 	CreatedAt time.Time
 	UpdatedAt time.Time
 	Mixer     Mixer
@@ -26,10 +28,6 @@ func (b Bcaster) RequestBcasterLive(db *gorm.DB, nicoUserSession string, twitchT
 	onlineCheckSlice := []bool{}
 	if b.Youtube.ID != 0 {
 		isLive := b.Youtube.UpdateYoutubeStatus(db)
-		onlineCheckSlice = append(onlineCheckSlice, isLive)
-	}
-	if b.Mixer.ID != 0 {
-		isLive := b.Mixer.UpdateMixerStatus(db)
 		onlineCheckSlice = append(onlineCheckSlice, isLive)
 	}
 	if b.Twitch.ID != 0 {
@@ -73,5 +71,5 @@ func (b Bcaster) updateStatus(db *gorm.DB, isOnline bool) (startFlag int) {
 }
 
 func (b Bcaster) CreateDiscordNotice() string {
-	return b.Name + "さんが配信開始しました。\n https://daregirudojo.herokuapp.com"
+	return b.title + "\n" + b.streamUrl
 }

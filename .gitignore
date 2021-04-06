@@ -1,2 +1,5 @@
 .env
 main
+*.mod
+*.sum
+main.zip

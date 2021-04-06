@@ -13,12 +13,14 @@ import (
 	"github.com/suzukix/apireq/model"
 )
 
-func apiRequest() {
+func apiRequest() (string, error) {
 	bcasters := []model.Bcaster{}
 	db, err := db.GetDbConnect()
 	if err != nil {
 		fmt.Println(err)
 	}
+	sqlDB, _ := db.DB()
+	defer sqlDB.Close()
 
 	db.Set("gorm:auto_preload", true).Find(&bcasters)
 	nicoUserSession := api_request.GetUserSeesion()
@@ -39,6 +41,7 @@ func apiRequest() {
 	}
 	wg.Wait()
 	model.SetApiTime(db)
+	return "success", nil
 }
 
 func main() {

@@ -1,6 +1,8 @@
 package model
 
 import (
+	"time"
+
 	"github.com/suzukix/apireq/api_request"
 	"gorm.io/gorm"
 )
@@ -14,6 +16,8 @@ type Nico struct {
 	OnURL     string
 	OffURL    string
 	BcasterID int
+	CreatedAt time.Time
+	UpdatedAt time.Time
 }
 
 func (n Nico) UpdateNicoStatus(db *gorm.DB, userSession string) (isLive bool) {

@@ -1,6 +1,8 @@
 package model
 
 import (
+	"time"
+
 	"github.com/suzukix/apireq/api_request"
 	"gorm.io/gorm"
 )
@@ -15,6 +17,8 @@ type Twitch struct {
 	OffURL    string
 	BcasterID int
 	Bcaster   *Bcaster
+	CreatedAt time.Time
+	UpdatedAt time.Time
 }
 
 func (t Twitch) UpdateTwitchStatus(db *gorm.DB, token string) (isLive bool) {

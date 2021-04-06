@@ -1,6 +1,8 @@
 package model
 
 import (
+	"time"
+
 	"github.com/suzukix/apireq/api_request"
 	"gorm.io/gorm"
 )
@@ -15,6 +17,8 @@ type Youtube struct {
 	OffURL    string
 	BcasterID int
 	Bcaster   *Bcaster
+	CreatedAt time.Time
+	UpdatedAt time.Time
 }
 
 func (y Youtube) UpdateYoutubeStatus(db *gorm.DB) (isLive bool) {

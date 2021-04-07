@@ -26,10 +26,6 @@ func (t Twitch) UpdateTwitchStatus(db *gorm.DB, token string) (isLive bool) {
 	if t.Title != title {
 		db.Model(&t).Updates(map[string]interface{}{"title": title, "on_url": onURL})
 	}
-	if isLive {
-		t.Bcaster.title = title
-		t.Bcaster.streamUrl = onURL
-	}
 	return
 }
 

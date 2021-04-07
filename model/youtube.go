@@ -26,10 +26,6 @@ func (y Youtube) UpdateYoutubeStatus(db *gorm.DB) (isLive bool) {
 	if y.Title != title {
 		db.Model(&y).Updates(map[string]interface{}{"title": title, "on_url": onURL})
 	}
-	if isLive {
-		y.Bcaster.title = title
-		y.Bcaster.streamUrl = onURL
-	}
 	return isLive
 }
 

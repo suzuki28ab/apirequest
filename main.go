@@ -6,6 +6,7 @@ import (
 
 	"github.com/aws/aws-lambda-go/lambda"
 	_ "github.com/joho/godotenv/autoload"
+	"gorm.io/gorm/clause"
 
 	"github.com/suzukix/apireq/api_request"
 	"github.com/suzukix/apireq/db"
@@ -22,7 +23,7 @@ func apiRequest() (string, error) {
 	sqlDB, _ := db.DB()
 	defer sqlDB.Close()
 
-	db.Set("gorm:auto_preload", true).Find(&bcasters)
+	db.Preload(clause.Associations).Find(&bcasters)
 	nicoUserSession := api_request.GetUserSeesion()
 	twitchToken := api_request.GetTwitchToken()
 	discordSession := discord.GetDiscordGo()

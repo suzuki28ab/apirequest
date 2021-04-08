@@ -78,10 +78,11 @@ func (b Bcaster) updateStatus(db *gorm.DB, isOnline bool) (startFlag int) {
 	}
 
 	if b.Status != status || b.StartFlag != startFlag {
+		loc, _ := time.LoadLocation("UTC")
 		db.Model(&b).UpdateColumns(map[string]interface{}{
 			"status":     status,
 			"start_flag": startFlag,
-			"updated_at": time.Now(),
+			"updated_at": time.Now().In(loc),
 		})
 	}
 	return

@@ -41,7 +41,6 @@ func apiRequest() (string, error) {
 		}(bcaster)
 	}
 	wg.Wait()
-	model.SetApiTime(db)
 	return "success", nil
 }
 

@@ -10,15 +10,17 @@ const OFFLINE = 0
 const ONLINE = 1
 
 type Bcaster struct {
-	ID        int
-	Name      string
-	Status    int
-	StartFlag int
-	CreatedAt time.Time
-	UpdatedAt time.Time
-	Nico      Nico
-	Twitch    Twitch
-	Youtube   Youtube
+	ID          int
+	Name        string
+	Status      int
+	StartFlag   int
+	StreamTitle string
+	StreamUrl   string
+	CreatedAt   time.Time
+	UpdatedAt   time.Time
+	Nico        Nico
+	Twitch      Twitch
+	Youtube     Youtube
 }
 
 func (b Bcaster) RequestBcasterLive(db *gorm.DB, nicoUserSession string, twitchToken string) (startFlag int) {
@@ -46,26 +48,6 @@ func (b Bcaster) RequestBcasterLive(db *gorm.DB, nicoUserSession string, twitchT
 	return
 }
 
-func (b Bcaster) Title() string {
-	if b.Twitch.Title != "" {
-		return b.Twitch.Title
-	} else if b.Youtube.Title != "" {
-		return b.Youtube.Title
-	} else {
-		return b.Nico.Title
-	}
-}
-
-func (b Bcaster) StreamUrl() string {
-	if b.Twitch.OnURL != "" {
-		return b.Twitch.OnURL
-	} else if b.Youtube.OnURL != "" {
-		return b.Youtube.OnURL
-	} else {
-		return b.Nico.OnURL
-	}
-}
-
 func (b Bcaster) updateStatus(db *gorm.DB, isOnline bool) (startFlag int) {
 	startFlag = 0
 	status := OFFLINE
@@ -89,5 +71,5 @@ func (b Bcaster) updateStatus(db *gorm.DB, isOnline bool) (startFlag int) {
 }
 
 func (b Bcaster) CreateDiscordNotice() string {
-	return b.Title() + "\n" + b.StreamUrl()
+	return b.StreamTitle + "\n" + b.StreamUrl
 }

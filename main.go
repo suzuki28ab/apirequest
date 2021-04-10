@@ -46,21 +46,4 @@ func apiRequest() (string, error) {
 
 func main() {
 	lambda.Start(apiRequest)
-	// db, err := db.GetDbConnect()
-	// if err != nil {
-	// 	fmt.Println(err)
-	// }
-	// sqlDB, _ := db.DB()
-	// defer sqlDB.Close()
-
-	// bcaster := model.Bcaster{
-	// 	Name: "hoge",
-	// 	Twitch: model.Twitch{
-	// 		Account: "fuga",
-	// 		OffURL:  "https://www.twitch.tv/fuga",
-	// 	},
-	// }
-
-	// db.Create(&bcaster)
-	// db.Save(&bcaster)
 }

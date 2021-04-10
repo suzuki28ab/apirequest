@@ -25,7 +25,11 @@ func (t Twitch) UpdateTwitchStatus(db *gorm.DB, token string) (isLive bool) {
 	isLive, title, onURL := getTwitchInfo(t, token)
 	if t.Title != title {
 		db.Model(&t).Updates(map[string]interface{}{"title": title, "on_url": onURL})
+		bcaster := Bcaster{}
+		db.Where("id = ?", t.BcasterID).First(&bcaster)
+		db.Model(&bcaster).Updates(Bcaster{StreamTitle: title, StreamUrl: onURL})
 	}
+
 	return
 }
 
